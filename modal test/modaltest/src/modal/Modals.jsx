@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Modal1 from 'react-modal';
-import Modal2 from '@mui/material/Modal';
+import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -10,20 +10,25 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Button, FormGroup, Grid, Typography } from '@mui/material';
+import axios from 'axios';
 
 const style = {
   position: 'absolute',
   top: '50%',
   left: '50%',
+  right: 'auto',
+  bottom: 'auto',
+  marginRight: '-50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: 'auto',
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
+  overlay: {
+    backgroundColor: 'rgba(49,92,38,0.7)'
+  }
 };
-
-
 
 const customStyles = {
   content: {
@@ -67,6 +72,7 @@ const Modals = () => {
     password: '',
     showPassword: false,
   });
+
   let subtitle;
   const [modalIsOpen, setIsOpen] = useState(false);
 
@@ -80,7 +86,7 @@ const Modals = () => {
     };
 
   const loginedSubmit = () => {
-
+    axios.post().then().catch();
   }
 
   const afterOpenModal = () => {
@@ -108,9 +114,9 @@ const Modals = () => {
     <div>
       <button onClick={openModal}>Open Modal</button>
       <div>
-        <Button onClick={handleOpen}>Open modal</Button>
+        <Button onClick={handleOpen} variant="contained">로그인</Button>
         {/* 여기가 mui modal */}
-        <Modal2
+        <Modal
           open={open}
           // onClose={handleClose}
           //  이것은 모달 창을 만들때 외부를 클릭하면 꺼지도록 해주는 기능입니다.
@@ -118,7 +124,7 @@ const Modals = () => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            <Typography component="h1" variant="h5">
+            <Typography component="h1" variant="h5" style={{ textAlign: 'center' }}>
               로그인
             </Typography>
             <FormGroup>
@@ -156,18 +162,17 @@ const Modals = () => {
                   label="Password"
                 />
               </FormControl>
-              <Grid container spacing={3}>
-                <Grid item xs style={{ paddingLeft: '40px' }}>
+              <Grid container>
+                <Grid item xs style={{ paddingLeft: '25px' }}>
                   <Button variant="contained" style={{ marginTop: '10px', }} onClick={closeModal}>취소</Button>
                 </Grid>
-                <Grid item xs='2' />
-                <Grid item xs>
+                <Grid item xs style={{ marginLeft: '50px' }}>
                   <Button variant="contained" onClick={loginedSubmit} style={{ marginTop: '10px' }}>로그인</Button>
                 </Grid>
               </Grid>
             </FormGroup>
           </Box>
-        </Modal2>
+        </Modal>
       </div>
 
       {/* 여기가 react modal */}

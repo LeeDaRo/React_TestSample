@@ -7,19 +7,33 @@ import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { Button, FormGroup, Grid, Typography } from '@mui/material';
+import { Button, Checkbox, FormGroup, Grid, Modal, Typography } from '@mui/material';
 import axios from 'axios';
+import Register_check from './Register_check';
 
 const style = {
-  position: 'absolute',
-  left: '50%',
-  transform: 'translateX(-50%)',
-  width: 500,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-  paddingBottom: '50px'
+  register: {
+    position: 'absolute',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    width: 500,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+    paddingBottom: '50px'
+  },
+  modal: {
+    position: 'absolute',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    width: 1000,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+    paddingBottom: '50px',
+  }
 };
 
 // 규격표기 폰트
@@ -72,6 +86,24 @@ const Register = () => {
   const [nameCheck, setNameCheck] = useState(true);
   //닉네임 입력 확인
   const [nickname, setNickname] = useState(true);
+
+  // 개인정보 활용 약관 동의 확인
+  const [checked, setChecked] = useState(false);
+  const handleCheckBox = (e) => {
+    setChecked(e.target.checked);
+  };
+
+  // 개인정보 동의 활용 약관 펼치기
+  const [consentOpen, setConsentOpen] = useState(false);
+  const consentOnClick = () => {
+    setConsentOpen(true);
+  }
+  // 개인정보 동의 활용 약관 닫기
+  const closeModal = () => {
+    setConsentOpen(false);
+    setChecked(true);
+  };
+  const handleClose = () => { setConsentOpen(false); };
 
   // 아이디 중복검사 
   const usernameCheck = () => {
@@ -191,7 +223,7 @@ const Register = () => {
 
   return (
     <div style={{ margin: 50 }}>
-      <Box sx={style}>
+      <Box sx={style.register}>
         <Typography component="h1" variant="h5">
           회원가입
         </Typography>
@@ -399,7 +431,35 @@ const Register = () => {
               {emailCheck ? <p style={inputOutfontDanger}>코드가 오지 않았다면 다시받기를 눌러주세요.</p> : <p style={inputOutfontDanger}>잘못 입력하셨습니다.</p>}
             </div></div> : <p></p>}
           {/**이메일 코드 인증코드 입력창 */}
-
+          <Grid>
+            <Button variant='outlined' onClick={consentOnClick} style={{ justifyContent: 'center', width: '100px' }}>약관 보기</Button>
+          </Grid>
+          <Modal style={{ overflowY: 'scroll' }}
+            open={consentOpen}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description">
+            <Box sx={style.modal}>
+              <Typography component="h1" variant="h5" style={{ textAlign: 'center' }}>
+                회원가입 동의 약관
+              </Typography>
+              <Grid container>
+                <Register_check />
+                <Button variant="contained" style={{ marginTop: '10px', }} onClick={closeModal}>확인</Button>
+              </Grid>
+            </Box>
+          </Modal>
+          <Grid container>
+            <p style={{
+              color: 'green',
+              paddingLeft: '10px',
+              fontSize: '15px'
+            }}>회원가입약관의 내용에 동의합니다.</p>
+            <Checkbox
+              checked={checked}
+              onChange={handleCheckBox}
+              inputProps={{ 'aria-label': 'controlled' }}
+            /></Grid>
           <Grid container spacing={3}>
             <Grid item xs style={{ paddingLeft: '40px' }}>
               <Button variant="contained" style={{ marginTop: '10px' }} onClick={noCreateUserHandler}>취소하기</Button>
@@ -409,7 +469,10 @@ const Register = () => {
               <Button variant="contained" onClick={createUserHandler} style={{ marginTop: '10px' }}>회원가입</Button>
             </Grid>
           </Grid>
+
         </FormGroup>
+
+
       </Box>
     </div >
   );
