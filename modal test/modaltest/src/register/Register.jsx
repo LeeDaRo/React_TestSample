@@ -87,6 +87,7 @@ const Register = () => {
   //닉네임 입력 확인
   const [nickname, setNickname] = useState(true);
 
+  const [infoCreate, setInfoCreate] = useState(false);
   // 개인정보 활용 약관 동의 확인
   const [checked, setChecked] = useState(false);
   const handleCheckBox = (e) => {
@@ -118,8 +119,10 @@ const Register = () => {
 
   // 회원가입 전송
   const createUserHandler = () => {
-    if (passwordCheck && passwordChecked && username && emailCheck && certified && nameCheck && nickname) {
+    if (passwordCheck && passwordChecked && username && emailCheck && certified && nameCheck && nickname && checked) {
       axios.post("/api/user/signup", userInfo).then().catch()
+    } else {
+
     }
   }
 
@@ -235,7 +238,7 @@ const Register = () => {
           <Grid container>
             <Grid item sx={{ display: 'flex', height: 'auto' }}>
               <FormControl sx={{ m: 1, width: '30ch' }} variant="outlined" style={{ alignItems: 'center' }}>
-                <InputLabel htmlFor="outlined-adornment-id">ID</InputLabel>
+                <InputLabel htmlFor="outlined-adornment-id">ID*</InputLabel>
                 <OutlinedInput
                   fullWidth
                   id="username"
@@ -259,7 +262,7 @@ const Register = () => {
             <p style={inputOutfont}>숫자 + 영문자 + 특수문자를 포함하여 8자리이상 입력해주세요.</p>
           </div>
           <FormControl sx={{ m: 1, width: '30ch' }} variant="outlined" style={{ alignItems: 'center' }}>
-            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+            <InputLabel htmlFor="outlined-adornment-password">Password*</InputLabel>
             <OutlinedInput
               fullWidth
               id="outlined-adornment-password"
@@ -291,7 +294,7 @@ const Register = () => {
             <p style={inputOutfont}>비밀번호를 다시한번 입력해주세요.</p>
           </div>
           <FormControl sx={{ m: 1, width: '30ch' }} variant="outlined" style={{ alignItems: 'center' }}>
-            <InputLabel htmlFor="outlined-adornment-password">PasswordChecker</InputLabel>
+            <InputLabel htmlFor="outlined-adornment-password">PasswordCheck*</InputLabel>
             <OutlinedInput
               fullWidth
               id="outlined-adornment-password"
@@ -325,7 +328,7 @@ const Register = () => {
           <Grid container>
             <Grid item sx={{ display: 'flex', height: 'auto' }}>
               <FormControl sx={{ m: 1, width: '15ch' }} variant="outlined" style={{ alignItems: 'center' }}>
-                <InputLabel htmlFor="outlined-adornment-id">성</InputLabel>
+                <InputLabel htmlFor="outlined-adornment-id">성*</InputLabel>
                 <OutlinedInput
                   fullWidth
                   id="l_name"
@@ -337,7 +340,7 @@ const Register = () => {
                 />
               </FormControl>
               <FormControl sx={{ m: 1, width: '15ch' }} variant="outlined" style={{ alignItems: 'center' }}>
-                <InputLabel htmlFor="outlined-adornment-id">이름</InputLabel>
+                <InputLabel htmlFor="outlined-adornment-id">이름*</InputLabel>
                 <OutlinedInput
                   fullWidth
                   id="f_name"
@@ -362,7 +365,7 @@ const Register = () => {
           <Grid container>
             <Grid item sx={{ display: 'flex', height: 'auto' }}>
               <FormControl sx={{ m: 1, width: '30ch' }} variant="outlined" style={{ alignItems: 'center' }}>
-                <InputLabel htmlFor="outlined-adornment-nickname">NickName</InputLabel>
+                <InputLabel htmlFor="outlined-adornment-nickname">닉네임*</InputLabel>
                 <OutlinedInput
                   fullWidth
                   id="nickname"
@@ -387,7 +390,7 @@ const Register = () => {
           </div>
           <Grid sx={{ display: 'flex', height: 'auto' }}>
             <FormControl sx={{ m: 1, width: '30ch' }} variant="outlined" style={{ alignItems: 'center' }}>
-              <InputLabel htmlFor="outlined-adornment-email">Email</InputLabel>
+              <InputLabel htmlFor="outlined-adornment-email">Email*</InputLabel>
               <OutlinedInput
                 fullWidth
                 id="email"
@@ -411,7 +414,7 @@ const Register = () => {
             </div>
             <Grid sx={{ display: 'flex', height: 'auto' }}>
               <FormControl sx={{ m: 1, width: '15ch' }} variant="outlined" style={{ alignItems: 'center' }}>
-                <InputLabel htmlFor="outlined-adornment-code">Code</InputLabel>
+                <InputLabel htmlFor="outlined-adornment-code">Code*</InputLabel>
                 <OutlinedInput
                   fullWidth
                   id="code"
@@ -459,7 +462,8 @@ const Register = () => {
               checked={checked}
               onChange={handleCheckBox}
               inputProps={{ 'aria-label': 'controlled' }}
-            /></Grid>
+            />
+            <p style={{ color: 'gray', fontSize: '14px' }}>(필수*)</p></Grid>
           <Grid container spacing={3}>
             <Grid item xs style={{ paddingLeft: '40px' }}>
               <Button variant="contained" style={{ marginTop: '10px' }} onClick={noCreateUserHandler}>취소하기</Button>
